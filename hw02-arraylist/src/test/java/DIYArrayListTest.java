@@ -1,6 +1,6 @@
-package ru.otus.hw02arraylist;
-
 import org.junit.Test;
+import ru.otus.hw02arraylist.DIYArrayList;
+
 import static org.junit.Assert.*;
 
 import java.util.Collections;

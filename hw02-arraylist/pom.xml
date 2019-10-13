@@ -37,7 +37,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>ru.otus.hw02arraylist.DIYArrayListTest</mainClass>
+                            <mainClass>DIYArrayListTest</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -10,7 +10,7 @@ public class DIYArrayList<T> implements List<T> {
 
     private static final int DEFAULT_CAPACITY = 5;
 
-    private T[] arrayOfElements;
+    private Object[] arrayOfElements;
 
     private int size;
 
@@ -19,22 +19,24 @@ public class DIYArrayList<T> implements List<T> {
     }
 
     public DIYArrayList(int initialCapacity) {
+
         if (initialCapacity > 0) {
-            this.arrayOfElements = (T[])new Object[initialCapacity];
+            this.arrayOfElements = new Object[initialCapacity];
         } else {
-            this.arrayOfElements = (T[])new Object[DEFAULT_CAPACITY];
+            this.arrayOfElements = new Object[DEFAULT_CAPACITY];
         }
     }
 
     private void indxCheck(int index) {
+
         if (index < 0 || index > size )
             throw new IndexOutOfBoundsException(index);
     }
 
     private void grow() {
 
-        final T[] oldArray = arrayOfElements;
-        arrayOfElements = (T[])new Object[size * 3];
+        final Object[] oldArray = arrayOfElements;
+        arrayOfElements = new Object[(size * 3) >>> 1 ];
 
         System.arraycopy(oldArray, 0,
                          arrayOfElements,0, oldArray.length);
@@ -42,8 +44,8 @@ public class DIYArrayList<T> implements List<T> {
 
     private void grow(int capacity) {
 
-        final T[] oldArray = arrayOfElements;
-        arrayOfElements = (T[])new Object[capacity];
+        final Object[] oldArray = arrayOfElements;
+        arrayOfElements = new Object[capacity];
 
         System.arraycopy(oldArray, 0,
                 arrayOfElements,0, oldArray.length);
@@ -56,7 +58,7 @@ public class DIYArrayList<T> implements List<T> {
 
     @Override
     public void sort(Comparator<? super T> c)  {
-        Arrays.sort(arrayOfElements, 0, size, c);;
+        Arrays.sort((T[]) arrayOfElements, 0, size, c);
     }
 
     @Override
@@ -83,9 +85,9 @@ public class DIYArrayList<T> implements List<T> {
     public Iterator<T> iterator() { return new ElementIteratror(); }
 
     @Override
-    public T[] toArray() {
+    public Object[] toArray() {
 
-        final T[] newArray = (T[])new Object[this.size];
+        final Object[] newArray = new Object[this.size];
         System.arraycopy(arrayOfElements, 0, newArray, 0 , this.size);
         return newArray;
     }
@@ -185,14 +187,13 @@ public class DIYArrayList<T> implements List<T> {
 
     @Override
     public boolean retainAll(Collection<?> c) throws UnsupportedOperationException {
-
         throw new UnsupportedOperationException();
     }
 
     @Override
     public void clear() {
 
-        arrayOfElements = (T[])new Object[1];
+        arrayOfElements = new Object[1];
         size = 0;
     }
 
@@ -201,7 +202,7 @@ public class DIYArrayList<T> implements List<T> {
 
         indxCheck(index);
 
-        return arrayOfElements[index];
+        return (T) arrayOfElements[index];
 
     }
 
@@ -210,7 +211,8 @@ public class DIYArrayList<T> implements List<T> {
 
         indxCheck(index);
 
-        return arrayOfElements[index] = element;
+        arrayOfElements[index] = element;
+        return (T) arrayOfElements[index];
     }
 
     @Override
@@ -220,31 +222,31 @@ public class DIYArrayList<T> implements List<T> {
 
         if (size == 1) {
 
-            return arrayOfElements[size--];
+            return (T) arrayOfElements[size--];
 
         } else {
 
-            final T oldElement = arrayOfElements[index];
+            final Object oldElement = arrayOfElements[index];
 
             System.arraycopy(arrayOfElements, index + 1,
                     arrayOfElements, index, this.size - index - 1);
             size--;
 
-            return oldElement;
+            return (T) oldElement;
         }
     }
 
     @Override
     public int indexOf(Object o) {
 
-        if (o == null) {
-            for (int i = 0; i < this.size; i++) {
-                if (this.get(i) == null) { return i; }
-            }
-        }
 
         for(int i = 0; i < this.size; i++) {
-           if (this.get(i).equals(o)) { return i; }
+            if (o == null) {
+                if (this.get(i) == null)  return i;
+
+            } else {
+                if (this.get(i).equals(o)) return i;
+            }
         }
 
         return -1;
@@ -253,14 +255,13 @@ public class DIYArrayList<T> implements List<T> {
     @Override
     public int lastIndexOf(Object o) {
 
-        if (o == null) {
-            for (int i = this.size-1; i != 0; i--) {
-                if (this.get(i) == null) { return i; }
-            }
-        }
-
         for (int i = this.size-1; i != 0; i--) {
-            if (this.get(i).equals(o)) { return i; }
+            if (o == null) {
+                if (this.get(i) == null)  return i;
+
+            } else {
+                if (this.get(i).equals(o)) return i;
+            }
         }
 
         return -1;
@@ -291,11 +292,14 @@ public class DIYArrayList<T> implements List<T> {
 
         @Override
         public T next() {
-            //cursor = cursor + 1;
+
             int index = cursor;
+
+            indxCheck(index);
+
             retIndex = index;
             cursor++;
-            return DIYArrayList.this.arrayOfElements[retIndex];
+            return (T) DIYArrayList.this.arrayOfElements[retIndex];
         }
     }
 
@@ -315,7 +319,7 @@ public class DIYArrayList<T> implements List<T> {
         @SuppressWarnings("unchecked")
         public T previous() {
 
-            final T[] iterData = DIYArrayList.this.arrayOfElements;
+            final Object[] iterData = DIYArrayList.this.arrayOfElements;
 
             int index = cursor - 1;
 
@@ -323,7 +327,7 @@ public class DIYArrayList<T> implements List<T> {
 
             cursor = index;
             retIndex = index;
-            return iterData[retIndex];
+            return (T) iterData[retIndex];
         }
 
         @Override
@@ -335,15 +339,6 @@ public class DIYArrayList<T> implements List<T> {
         @Override
         public void remove() throws UnsupportedOperationException{
             throw new UnsupportedOperationException();
-            /*if (retIndex < 0) throw new IllegalStateException();
-
-            try {
-                DIYArrayList.this.remove(retIndex);
-                cursor = retIndex;
-                retIndex = -1;
-            }catch (IndexOutOfBoundsException ex) {
-                throw new IndexOutOfBoundsException(retIndex);
-            }*/
         }
 
         @Override
