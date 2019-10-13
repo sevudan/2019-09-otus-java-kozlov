@@ -1,3 +1,5 @@
+package ru.otus.hw02arraylist;
+
 import org.junit.Test;
 import ru.otus.hw02arraylist.DIYArrayList;
 
@@ -9,7 +11,7 @@ import java.util.List;
 public class DIYArrayListTest {
 
     public static void main(String args[]) {
-        org.junit.runner.JUnitCore.main("DIYArrayListTest");
+        org.junit.runner.JUnitCore.main("ru.otus.hw02arraylist.DIYArrayListTest");
     }
 
     @Test

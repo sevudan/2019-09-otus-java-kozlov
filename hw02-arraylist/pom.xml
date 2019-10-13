@@ -14,16 +14,14 @@
 
     <packaging>jar</packaging>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                    <version>4.12</version>
-                    <scope>test</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <dependencies>
+        <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+        </dependency>
+    </dependencies>
     <build>
         <finalName>${project.name}</finalName>
 
@@ -37,7 +35,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>DIYArrayListTest</mainClass>
+                            <mainClass>ru.otus.hw02arraylist.DIYArrayListTest</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
