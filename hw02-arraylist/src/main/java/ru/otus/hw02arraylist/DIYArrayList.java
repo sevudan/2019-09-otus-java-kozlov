@@ -241,11 +241,8 @@ public class DIYArrayList<T> implements List<T> {
 
 
         for(int i = 0; i < this.size; i++) {
-            if (o == null) {
-                if (this.get(i) == null)  return i;
-
-            } else {
-                if (this.get(i).equals(o)) return i;
+            if ((o == null && this.get(i) == null) || this.get(i).equals(o)) {
+                return i;
             }
         }
 
@@ -256,11 +253,8 @@ public class DIYArrayList<T> implements List<T> {
     public int lastIndexOf(Object o) {
 
         for (int i = this.size-1; i != 0; i--) {
-            if (o == null) {
-                if (this.get(i) == null)  return i;
-
-            } else {
-                if (this.get(i).equals(o)) return i;
+            if ((o == null && this.get(i) == null) || this.get(i).equals(o)) {
+                return i;
             }
         }
 

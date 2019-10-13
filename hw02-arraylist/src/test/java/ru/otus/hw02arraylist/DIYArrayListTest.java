@@ -8,10 +8,6 @@ import java.util.List;
 
 public class DIYArrayListTest {
 
-    public static void main(String args[]) {
-        org.junit.runner.JUnitCore.main("DIYArrayListTest");
-    }
-
     @Test
     public void testSizeIf0() {
         final List<Integer> testInstance = new DIYArrayList<>();
