@@ -1,4 +1,4 @@
-#HW02. DIYArrayList.
+##HW02 DIYArrayList.
 
 Написать свою реализацию ArrayList на основе массива.
 
