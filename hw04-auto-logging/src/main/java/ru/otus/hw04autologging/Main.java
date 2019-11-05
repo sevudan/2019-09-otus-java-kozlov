@@ -3,9 +3,10 @@ package ru.otus.hw04autologging;
 public class Main {
     public static void main(String... args) throws Exception {
 
-        new AutoLogging().loggingMethod(TestClass.class).diff(4);
-        new AutoLogging().loggingMethod(TestClass.class).summ(25, 30);
-        new AutoLogging().loggingMethod(TestClass.class).mult(7);
+        TestClass testAutoLogging = AutoLogging.loggingMethod(TestClassImpl.class);
+        testAutoLogging.diff(4);
+        testAutoLogging.summ(33, 55);
+        testAutoLogging.mult(7);
 
     }
 }

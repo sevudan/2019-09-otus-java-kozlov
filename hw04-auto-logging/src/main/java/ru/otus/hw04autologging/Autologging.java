@@ -1,9 +1,6 @@
 package ru.otus.hw04autologging;
 
-
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
+import java.lang.reflect.*;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.IntStream;
@@ -12,41 +9,42 @@ class AutoLogging {
 
     final static Class ANNOTATE_LOG = Log.class;
 
-    private static boolean checkLogged(Method m){
-        return m.isAnnotationPresent(ANNOTATE_LOG);
+    private static boolean isLogAnnotationPresent(Method method){
+        return method.isAnnotationPresent(ANNOTATE_LOG);
     }
 
-    public static TestClassIf loggingMethod(Class<?> sClass) {
+    static <T> T loggingMethod(Class<T> clazz)
+            throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException {
 
-        for (Method m: sClass.getMethods()) {
-            if (checkLogged(m)){
-                InvocationHandler handler = new ProxyClass(new TestClass());
+        Constructor<T> constructor = clazz.getConstructor();
 
-                return (TestClassIf) Proxy.newProxyInstance(AutoLogging.class.getClassLoader(),
-                        sClass.getInterfaces(),
-                        handler);
+        for (Method method: clazz.getMethods()) {
+            if (isLogAnnotationPresent(method)) {
+                InvocationHandler handler = new LoggingInvocationHandler(constructor.newInstance());
+
+                return (T) Proxy.newProxyInstance(AutoLogging.class.getClassLoader(),
+                        clazz.getInterfaces(), handler);
             }
         }
-        return new TestClass();
+        return constructor.newInstance();
     }
 
+    static class LoggingInvocationHandler<T> implements InvocationHandler {
 
-    static class ProxyClass implements InvocationHandler {
-
-        TestClassIf myClass;
+        private final T underlying;
 
         private final Set<String> loggedMethods = new HashSet<>();
 
-        public ProxyClass(TestClassIf myClass) {
-            this.myClass = myClass;
-
-            for (Method m: this.myClass.getClass().getMethods()) {
-                if (checkLogged(m)) loggedMethods.add(m.getName());
+        public LoggingInvocationHandler(T underlying) {
+            this.underlying = underlying;
+            for (Method method: this.underlying.getClass().getMethods()) {
+                if (isLogAnnotationPresent(method)) loggedMethods.add(method.getName());
             }
         }
 
         @Override
-        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        public Object invoke(Object proxy, Method method, Object[] args)
+                throws IllegalAccessException, InvocationTargetException{
 
             StringBuilder sb = new StringBuilder();
 
@@ -55,7 +53,7 @@ class AutoLogging {
                 IntStream.range(0, args.length).forEach(i -> sb.append(args[i]).append(' '));
                 System.out.println(sb.toString());
             }
-            return method.invoke(myClass, args);
+            return method.invoke(underlying, args);
         }
     }
 }
