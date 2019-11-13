@@ -1,6 +1,6 @@
 package ru.otus.testframework.framework;
 
-public class Assert {
+public class MyAsserts {
 
     private static String failMessage(String message) {
         throw new AssertionError(message);
