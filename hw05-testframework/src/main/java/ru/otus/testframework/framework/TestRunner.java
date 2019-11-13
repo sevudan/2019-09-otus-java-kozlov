@@ -24,11 +24,11 @@ public class TestRunner {
         System.out.printf("Start tests. Test class: %s \n\n", clazz.getName());
 
         Method[] methods = clazz.getDeclaredMethods();
-        List<Method> methodsBeforeAll = InitLists.addAnnotationMethods(BeforeAll.class, methods);
-        List<Method> methodsAfterAll = InitLists.addAnnotationMethods(AfterAll.class, methods);
-        List<Method> methodsTest = InitLists.addAnnotationMethods(Test.class, methods);
-        List<Method> methodsBeforEach = InitLists.addAnnotationMethods(BeforeEach.class, methods);
-        List<Method> methodsAfterEach = InitLists.addAnnotationMethods(AfterEach.class, methods);
+        List<Method> methodsBeforeAll = MethodLists.addAnnotationMethods(BeforeAll.class, methods);
+        List<Method> methodsAfterAll = MethodLists.addAnnotationMethods(AfterAll.class, methods);
+        List<Method> methodsTest = MethodLists.addAnnotationMethods(Test.class, methods);
+        List<Method> methodsBeforEach = MethodLists.addAnnotationMethods(BeforeEach.class, methods);
+        List<Method> methodsAfterEach = MethodLists.addAnnotationMethods(AfterEach.class, methods);
 
         Object newInstance = clazz.getConstructor().newInstance();
 
