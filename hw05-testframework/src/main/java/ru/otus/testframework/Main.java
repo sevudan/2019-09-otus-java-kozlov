@@ -1,6 +1,6 @@
 package ru.otus.testframework;
 
-import ru.otus.testframework.framework.TestRunner;
+import ru.otus.testframework.framework.Launch;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -9,6 +9,6 @@ public class Main {
     public static void main(String... args)throws NoSuchMethodException,
             IllegalAccessException, InvocationTargetException, InstantiationException {
 
-        TestRunner.run(TestClass.class);
+        Launch.run(TestClass.class);
     }
 }

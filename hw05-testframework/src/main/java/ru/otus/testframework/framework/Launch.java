@@ -4,16 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
-public class TestRunner {
-
-    /**Поочередный запуск методов**/
-    private static void invokeMethods(List<Method> methods, Object newInstance) {
-        try {
-            for (Method method: methods) method.invoke(newInstance);
-        } catch(IllegalAccessException | InvocationTargetException e){
-            throw new Error(e);
-        }
-    }
+public class Launch {
 
     /**Запуск теста.**/
     public static void run(Class<?> clazz) throws NoSuchMethodException, IllegalAccessException,
@@ -24,38 +15,36 @@ public class TestRunner {
         System.out.printf("Start tests. Test class: %s \n\n", clazz.getName());
 
         Method[] methods = clazz.getDeclaredMethods();
-        List<Method> methodsBeforeAll = MethodLists.addAnnotationMethods(BeforeAll.class, methods);
-        List<Method> methodsAfterAll = MethodLists.addAnnotationMethods(AfterAll.class, methods);
-        List<Method> methodsTest = MethodLists.addAnnotationMethods(Test.class, methods);
-        List<Method> methodsBeforEach = MethodLists.addAnnotationMethods(BeforeEach.class, methods);
-        List<Method> methodsAfterEach = MethodLists.addAnnotationMethods(AfterEach.class, methods);
+        List<Method> methodsBeforeAll = HelperLaunch.getAnnotationMethods(BeforeAll.class, methods);
+        List<Method> methodsAfterAll = HelperLaunch.getAnnotationMethods(AfterAll.class, methods);
+        List<Method> methodsTest = HelperLaunch.getAnnotationMethods(Test.class, methods);
+        List<Method> methodsBeforEach = HelperLaunch.getAnnotationMethods(BeforeEach.class, methods);
+        List<Method> methodsAfterEach = HelperLaunch.getAnnotationMethods(AfterEach.class, methods);
 
         Object newInstance = clazz.getConstructor().newInstance();
-
         if (!methodsBeforeAll.isEmpty()) {
-            invokeMethods(methodsBeforeAll, newInstance);
+            HelperLaunch.invokeMethods(methodsBeforeAll, newInstance);
         }
         for (Method methodTest : methodsTest) {
             String errors = null;
             try {
-                invokeMethods(methodsBeforEach, newInstance);
+                HelperLaunch.invokeMethods(methodsBeforEach, newInstance);
                 methodTest.invoke(newInstance);
                 testsPassedCount++;
             } catch (Exception e) {
                 errors = e.getCause().getMessage();
             } finally {
-                invokeMethods(methodsAfterEach, newInstance);
+                HelperLaunch.invokeMethods(methodsAfterEach, newInstance);
             }
             if (errors != null) {
                 System.out.printf("Test method name : %s. Result: Failed!\nCause: %s\n\n", methodTest.getName(), errors);
             } else {
-                System.out.print(String.format("Test method name: %s. Result: Passed!\n", methodTest.getName()));
+                System.out.print(String.format("Test method name: %s. Result: Passed!\n\n", methodTest.getName()));
             }
         }
         if (!methodsAfterAll.isEmpty()) {
-            invokeMethods(methodsAfterAll, newInstance);
+            HelperLaunch.invokeMethods(methodsAfterAll, newInstance);
         }
-
         System.out.printf("\nTest done. Successfully: %s Errors count: %s\n", testsPassedCount, methodsTest.size() - testsPassedCount);
     }
 }
