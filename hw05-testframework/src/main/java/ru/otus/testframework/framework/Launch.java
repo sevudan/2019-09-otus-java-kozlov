@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Launch {
 
-    /**Запуск теста.**/
+    //**Запуск теста.**/
     public static void run(Class<?> clazz) throws NoSuchMethodException, IllegalAccessException,
             InvocationTargetException, InstantiationException {
 
@@ -21,11 +21,12 @@ public class Launch {
         List<Method> methodsBeforEach = HelperLaunch.getAnnotationMethods(BeforeEach.class, methods);
         List<Method> methodsAfterEach = HelperLaunch.getAnnotationMethods(AfterEach.class, methods);
 
-        Object newInstance = clazz.getConstructor().newInstance();
+
         if (!methodsBeforeAll.isEmpty()) {
-            HelperLaunch.invokeMethods(methodsBeforeAll, newInstance);
+            HelperLaunch.invokeMethods(methodsBeforeAll, null);
         }
         for (Method methodTest : methodsTest) {
+            Object newInstance = clazz.getConstructor().newInstance();
             String errors = null;
             try {
                 HelperLaunch.invokeMethods(methodsBeforEach, newInstance);
@@ -43,7 +44,7 @@ public class Launch {
             }
         }
         if (!methodsAfterAll.isEmpty()) {
-            HelperLaunch.invokeMethods(methodsAfterAll, newInstance);
+            HelperLaunch.invokeMethods(methodsAfterAll, null);
         }
         System.out.printf("\nTest done. Successfully: %s Errors count: %s\n", testsPassedCount, methodsTest.size() - testsPassedCount);
     }

@@ -18,7 +18,7 @@ final class HelperLaunch {
     }
 
     /** Функция возвращает лист методов**/
-    public static List getAnnotationMethods(Class clazz, Method[] methods) {
+    public static List<Method> getAnnotationMethods(Class clazz, Method[] methods) {
         ArrayList<Method> tmpList = new ArrayList<>();
         for (Method method: methods) {
             if (method.isAnnotationPresent(clazz)) tmpList.add(method);

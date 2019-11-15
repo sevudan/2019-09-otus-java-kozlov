@@ -19,19 +19,17 @@ public class TestClass {
     private final ArrayList<Integer> array2 = new ArrayList<>();
 
     @BeforeAll
-    public void initArray(){
-        IntStream.range(15, 20).forEach(i -> array1.add(i));
-        IntStream.range(0, 5).forEach(i -> array2.add(i) );
+    public static void init(){
+        System.out.println("Hello! TEST started. BeforeALL method called!\n");
     }
 
     @BeforeEach
     public void addElementIntoList() {
-        list.addAll(array2);
-    }
 
-    @BeforeEach
-    public void addElementIntoList2() {
+        IntStream.range(15, 20).forEach(i -> array1.add(i));
+        IntStream.range(0, 10).forEach(i -> array2.add(i));
         list.addAll(array1);
+        list.addAll(array2);
     }
 
     @Test
@@ -47,24 +45,23 @@ public class TestClass {
     @Test
     public void getElementsByIndx() {
 
-        assertEquals(15, list.get(5));
+        assertEquals(15, list.get(0));
     }
 
     @Test
     public void getIndexOfElement() {
-        assertEquals(17, list.get(2));
+        assertEquals(14, list.get(0));
     }
 
     @AfterEach
     public void  afterEach() {
-        System.out.printf("AfterEach method called! Current list size - %s!\n", list.size());
+
+        list.clear();
+        System.out.println("AfterEach method called!\n");
     }
 
     @AfterAll
-    public void  clearOther() {
-        list2.clear();
-        list.clear();
-        array1.clear();
-        array2.clear();
+    public static void  clearOther() {
+        System.out.println("TEST finished. AfterAll method called!\n");
     }
 }
