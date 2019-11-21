@@ -5,10 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import ru.otus.atm.controller.AtmActionImpl;
-import ru.otus.atm.model.MoneyCell;
-
 import org.hamcrest.collection.IsMapContaining;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.HashMap;
@@ -16,19 +14,21 @@ import java.util.Map;
 
 
 public class TestExecutor {
-    private AtmActionImpl atmAction = new AtmActionImpl();
+    private Atm atm = new AtmImpl();
 
     @BeforeEach
-    public void init() throws Exception {
-        atmAction.addCash(5,100); //500
-        atmAction.addCash(3,500); //1500
-        atmAction.addCash(3,1000); //3000
-        atmAction.addCash(2,5000); //10000
+    public void init() {
+
+        atm.addCash(5,100); //500
+        atm.addCash(3,500); //1500
+        atm.addCash(3,1000); //3000
+        atm.addCash(2,5000); //10000 // Total:
+
     }
 
     @Test
     public void getCashThousand() {
-        Map<Integer, MoneyCell> map = atmAction.getCash(1000);
+        Map<Integer, MoneyCellImpl> map = atm.getCash(1000);
 
         assertThat(map, IsMapContaining.hasKey(1000));
         assertEquals(1, map.get(1000).getBanknotesCount());
@@ -37,7 +37,7 @@ public class TestExecutor {
     @Test
     public void getCashMoreThanFiveThousand() {
 
-        Map<Integer, MoneyCell> map2 = atmAction.getCash(11700);
+        Map<Integer, MoneyCellImpl> map2 = atm.getCash(11700);
 
         assertThat(map2, IsMapContaining.hasKey(5000));
         assertThat(map2, IsMapContaining.hasKey(1000));
@@ -50,21 +50,21 @@ public class TestExecutor {
     }
 
     @Test
-    public void getCashMoreThanMoneyCell() {
+    public void getCashMoreThanMoneyCell() throws Exception {
 
-        assertTrue(atmAction.getCash(1_000_000).isEmpty());
+        assertTrue(atm.getCash(1_000_000).isEmpty());
     }
 
     @Test
     public void getIncorrectCash() {
         var map = new HashMap<>();
-        assertEquals(map, atmAction.getCash(5555));
+        assertEquals(map, atm.getCash(5555));
     }
 
     @AfterEach
     public void infoAfter() {
-        System.out.println("\nAfterEach test message.");
-        atmAction.getTotalCash().forEach((k,v) -> System.out.printf("%s %s \n", k, v));
+        System.out.println("\nAfterEach Test message.");
+        atm.getTotalCash().forEach((k,v) -> System.out.printf("%s %s \n", k, v));
         System.out.println();
     }
 }
