@@ -72,7 +72,6 @@ public class CellStoreImpl implements CellStore {
             if (remainder == 0) {
                 resultCell.put(faceValue, new MoneyCellImpl(customerBanknotes, faceValue));
                 setBanknotes(faceValue, new MoneyCellImpl(remainderBanknotes, faceValue));
-                System.out.println(remainderBanknotes);
                 break;
             } else {
                 //Выполняем, если кол-во необходимых купюр меньше чем в ячейке.
@@ -104,10 +103,9 @@ public class CellStoreImpl implements CellStore {
                     .mapToInt(k -> k.getTotalAmount())
                     .sum();
         }
-        int res = cellStore.values().stream()
+        return cellStore.values().stream()
                 .mapToInt(k -> k.getTotalAmount())
                 .sum();
-        return res;
     }
 
     /**Получить общее кол-во банкнот во всех ячейках*.*/
