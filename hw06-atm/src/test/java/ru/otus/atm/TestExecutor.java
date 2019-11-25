@@ -28,7 +28,7 @@ public class TestExecutor {
 
     @Test
     public void getCashThousand() {
-        Map<Integer, MoneyCellImpl> map = atm.getCash(1000);
+        Map<Integer, MoneyCell> map = atm.getCash(1000);
 
         assertThat(map, IsMapContaining.hasKey(1000));
         assertEquals(1, map.get(1000).getBanknotesCount());
@@ -37,7 +37,7 @@ public class TestExecutor {
     @Test
     public void getCashMoreThanFiveThousand() {
 
-        Map<Integer, MoneyCellImpl> map2 = atm.getCash(11700);
+        Map<Integer, MoneyCell> map2 = atm.getCash(11700);
 
         assertThat(map2, IsMapContaining.hasKey(5000));
         assertThat(map2, IsMapContaining.hasKey(1000));

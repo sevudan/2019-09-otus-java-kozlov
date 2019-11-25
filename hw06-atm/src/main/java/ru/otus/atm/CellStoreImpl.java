@@ -4,7 +4,7 @@ import java.util.*;
 
 public class CellStoreImpl implements CellStore {
 
-    private final Map<Integer, MoneyCellImpl> cellStore = new LinkedHashMap<>();
+    private final Map<Integer, MoneyCell> cellStore = new LinkedHashMap<>();
 
     CellStoreImpl() {
         for (FaceValue value: FaceValue.values()) {
@@ -29,13 +29,13 @@ public class CellStoreImpl implements CellStore {
     }
 
     @Override
-    public void setBanknotes(int faceValue, MoneyCellImpl moneyCell) {
+    public void setBanknotes(int faceValue, MoneyCell moneyCell) {
         cellStore.put(faceValue, moneyCell);
     }
 
     /**Функция выполняет добавления купюр в ячейку.**/
     @Override
-    public void addBanknotes(MoneyCellImpl moneyCell){
+    public void addBanknotes(MoneyCell moneyCell){
         int faceValue = moneyCell.getFaceValue();
         int banknotes = moneyCell.getBanknotesCount();
         int newBanknotesCount = banknotes + getCell(faceValue).getBanknotesCount();
@@ -44,8 +44,8 @@ public class CellStoreImpl implements CellStore {
 
     /**Функция возвращает ячейку(и) с купюрами.**/
     @Override
-    public Map<Integer, MoneyCellImpl> getBanknotes(int cash) throws Error {
-        Map<Integer, MoneyCellImpl> resultCell = new HashMap<>();
+    public Map<Integer, MoneyCell> getBanknotes(int cash) throws Error {
+        Map<Integer, MoneyCell> resultCell = new HashMap<>();
         List<FaceValue> listFaceValues = Arrays.asList(FaceValue.values());
 
         Collections.reverse(listFaceValues);

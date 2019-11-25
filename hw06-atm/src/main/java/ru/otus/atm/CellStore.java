@@ -4,11 +4,11 @@ import java.util.Map;
 
 public interface CellStore {
 
-    void setBanknotes(int faceValue, MoneyCellImpl moneyCell);
+    void setBanknotes(int faceValue, MoneyCell moneyCell);
 
-    void addBanknotes(MoneyCellImpl userMoneyCell);
+    void addBanknotes(MoneyCell userMoneyCell);
 
-    Map<Integer, MoneyCellImpl> getBanknotes(int cash) throws Error;
+    Map<Integer, MoneyCell> getBanknotes(int cash) throws Error;
 
     MoneyCell getCell(int faceValue);
 

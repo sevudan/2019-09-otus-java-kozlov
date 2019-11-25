@@ -12,7 +12,7 @@ public class AtmImpl implements Atm {
     }
 
     @Override
-    public Map<Integer, MoneyCellImpl> getCash(int cash)  {
+    public Map<Integer, MoneyCell> getCash(int cash)  {
         checkCash(cash);
 
         var result =  cellStore.getBanknotes(cash);
