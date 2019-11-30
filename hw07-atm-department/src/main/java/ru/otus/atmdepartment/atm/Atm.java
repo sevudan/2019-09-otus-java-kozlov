@@ -8,7 +8,7 @@ public interface Atm {
 
     void addCash(int count, int faceValue);
 
-    Map<String, Integer> getTotalCash();
+    BalanceInfo getTotalCash();
 
     void restore();
 

@@ -2,21 +2,21 @@ package ru.otus.atmdepartment.director;
 
 import ru.otus.atmdepartment.atm.Atm;
 import ru.otus.atmdepartment.atm.AtmImpl;
+import ru.otus.atmdepartment.atm.BalanceInfo;
+import ru.otus.atmdepartment.atm.BalanceInfoImpl;
 import ru.otus.atmdepartment.director.command.AtmCommandBalance;
-import ru.otus.atmdepartment.director.command.DepartmentBalance;
 import ru.otus.atmdepartment.director.command.DepartmentCommand;
 
 import java.util.List;
-import java.util.Map;
 
 public class AtmDepartmentImpl implements AtmDepartment{
 
     private final AtmDepartmentProducer listeners = new AtmDepartmentProducer();
-    private DepartmentBalance departmentBalance;
-    private DepartmentCommand departmentCommand;
+    private final BalanceInfo balanceInfo;
+    private final DepartmentCommand departmentCommand;
 
     public AtmDepartmentImpl() {
-        this.departmentBalance = new DepartmentBalance();
+        this.balanceInfo = new BalanceInfoImpl();
         this.departmentCommand = new DepartmentCommand();
     }
 
@@ -32,15 +32,11 @@ public class AtmDepartmentImpl implements AtmDepartment{
         listeners.removeListener(atm);
     }
 
-    public Map<String,Integer>  getBalance(List<Atm> units) {
+    public BalanceInfo getBalance() {
         listeners.onGetTotalBalance();
-        departmentCommand.addCommand(new AtmCommandBalance(units, departmentBalance));
+        departmentCommand.addCommand(new AtmCommandBalance(listeners.getListeners(), balanceInfo));
         departmentCommand.executeCommands();
-        Map<String,Integer> bb = departmentBalance.getTotalBanknotes();
-        System.out.printf("Total cash in all ATMs: %s, total banknotes: %s",
-                bb.get("TotalMoney"),
-                bb.get("TotalBanknotes"));
-        return departmentBalance.getTotalBanknotes();
+        return balanceInfo;
     }
 
     public void restore() {

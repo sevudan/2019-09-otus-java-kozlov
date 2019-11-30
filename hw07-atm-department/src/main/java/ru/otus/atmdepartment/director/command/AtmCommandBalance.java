@@ -1,31 +1,32 @@
 package ru.otus.atmdepartment.director.command;
 
 import ru.otus.atmdepartment.atm.Atm;
+import ru.otus.atmdepartment.atm.BalanceInfo;
 
 import java.util.List;
-import java.util.Map;
 
 public class AtmCommandBalance implements AtmCommand {
 
     private final List<Atm> listAtms;
-    private DepartmentBalance departmentBalance;
+    private final  BalanceInfo balanceInfo;
 
-    public AtmCommandBalance(List<Atm> listAtms,
-                             DepartmentBalance departmentBalance) {
+    public AtmCommandBalance(List<Atm> listAtms, BalanceInfo balanceInfo) {
         this.listAtms = listAtms;
-        this.departmentBalance = departmentBalance;
+        this.balanceInfo = balanceInfo;
     }
 
     @Override
     public boolean execute() {
-        Map<String,Integer>  balance = departmentBalance.getTotalBanknotes();
 
-        for (Atm atm : listAtms){
-            Map<String, Integer> map = atm.getTotalCash();
-            map.forEach((k,v) -> balance.merge(k, v, Integer::sum));
+        int totalMoney = 0;
+        int banknotesCount = 0;
+        for (Atm atm : listAtms) {
+            totalMoney += atm.getTotalCash().getTotalMoney();
+            banknotesCount += atm.getTotalCash().getTotalBanknotes();
         }
-
-        departmentBalance.putBanknotes(balance);
+        balanceInfo.setTotalMoney(totalMoney);
+        balanceInfo.setTotalBanknotes(banknotesCount);
         return true;
     }
+
 }

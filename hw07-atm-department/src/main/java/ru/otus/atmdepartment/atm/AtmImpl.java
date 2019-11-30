@@ -6,12 +6,12 @@ import ru.otus.atmdepartment.atm.storage.CellStore;
 import ru.otus.atmdepartment.atm.storage.CellStoreImpl;
 import ru.otus.atmdepartment.director.AtmDepartmentListener;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class AtmImpl implements Atm, AtmDepartmentListener {
 
     private CellStore cellStore;
+    private BalanceInfo balanceInfo;
 
     private final AtmOriginator originator = new AtmOriginatorImpl();
 
@@ -45,11 +45,11 @@ public class AtmImpl implements Atm, AtmDepartmentListener {
     }
 
     @Override
-    public  Map<String, Integer> getTotalCash() {
-        Map<String,Integer> totalCash = new LinkedHashMap<>();
-        totalCash.put("TotalMoney", cellStore.getTotalCash(0));
-        totalCash.put("TotalBanknotes",cellStore.getTotalBanknotes());
-        return totalCash;
+    public  BalanceInfo getTotalCash() {
+
+        balanceInfo = new BalanceInfoImpl(cellStore.getTotalCash(0),
+                                         cellStore.getTotalBanknotes());
+        return balanceInfo;
     }
 
     @Override

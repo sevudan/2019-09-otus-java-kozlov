@@ -14,8 +14,8 @@ import ru.otus.atmdepartment.atm.*;
 
 public class TestExecutor {
 
-    private Map<Integer, MoneyCell> Atm01loadBanknotes = new HashMap<>();
-    private Map<Integer, MoneyCell> Atm02loadBanknotes = new HashMap<>();
+    private Map<Integer, MoneyCell> atm01loadBanknotes = new HashMap<>();
+    private Map<Integer, MoneyCell> atm02loadBanknotes = new HashMap<>();
     private AtmImpl atm1;
     private AtmImpl atm2;
     private AtmImpl atm3;
@@ -24,23 +24,23 @@ public class TestExecutor {
     @BeforeEach
     public void init() {
         //Total 21000
-        Atm01loadBanknotes.put(100, new MoneyCellImpl(5, 100));
-        Atm01loadBanknotes.put(500, new MoneyCellImpl(5, 500));
-        Atm01loadBanknotes.put(1000, new MoneyCellImpl(3, 1000));
-        Atm01loadBanknotes.put(5000, new MoneyCellImpl(3, 5000));
+        atm01loadBanknotes.put(100, new MoneyCellImpl(5, 100));
+        atm01loadBanknotes.put(500, new MoneyCellImpl(5, 500));
+        atm01loadBanknotes.put(1000, new MoneyCellImpl(3, 1000));
+        atm01loadBanknotes.put(5000, new MoneyCellImpl(3, 5000));
 
         //Total 6700
-        Atm02loadBanknotes.put(100, new MoneyCellImpl(2, 100));
-        Atm02loadBanknotes.put(500, new MoneyCellImpl(1, 500));
-        Atm02loadBanknotes.put(1000, new MoneyCellImpl(1, 1000));
-        Atm02loadBanknotes.put(5000, new MoneyCellImpl(1, 5000));
+        atm02loadBanknotes.put(100, new MoneyCellImpl(2, 100));
+        atm02loadBanknotes.put(500, new MoneyCellImpl(1, 500));
+        atm02loadBanknotes.put(1000, new MoneyCellImpl(1, 1000));
+        atm02loadBanknotes.put(5000, new MoneyCellImpl(1, 5000));
     }
 
 
     @Test
     public void testDepartmentRemoveAtm(){
         atmDepartment = new AtmDepartmentImpl();
-        AtmImpl atm1 = new AtmImpl(Atm01loadBanknotes);
+        AtmImpl atm1 = new AtmImpl(atm01loadBanknotes);
         AtmImpl atm3 = new AtmImpl();
 
         atmDepartment.addAtm(atm1);
@@ -57,8 +57,8 @@ public class TestExecutor {
     @Test
     public void testDepartmentGetAtm(){
         atmDepartment = new AtmDepartmentImpl();
-        AtmImpl atm1 = new AtmImpl(Atm01loadBanknotes);
-        AtmImpl atm2 = new AtmImpl(Atm02loadBanknotes);
+        AtmImpl atm1 = new AtmImpl(atm01loadBanknotes);
+        AtmImpl atm2 = new AtmImpl(atm02loadBanknotes);
         AtmImpl atm3 = new AtmImpl();
 
         atmDepartment.addAtm(atm1);
@@ -73,8 +73,8 @@ public class TestExecutor {
     @Test
     public void testDepartmentGetTotalCash() {
         atmDepartment = new AtmDepartmentImpl();
-        AtmImpl atm1 = new AtmImpl(Atm01loadBanknotes);
-        AtmImpl atm2 = new AtmImpl(Atm02loadBanknotes);
+        AtmImpl atm1 = new AtmImpl(atm01loadBanknotes);
+        AtmImpl atm2 = new AtmImpl(atm02loadBanknotes);
         AtmImpl atm3 = new AtmImpl();
 
         atmDepartment.addAtm(atm1);
@@ -83,17 +83,17 @@ public class TestExecutor {
         atm3.addCash(3, 500);
         atm3.addCash(2, 1000);
         atm3.addCash(2, 5000);
-        Map<String, Integer> balance = atmDepartment.getBalance(atmDepartment.getAtmAll());
+        BalanceInfo balance = atmDepartment.getBalance();
 
-        assertEquals(41200, balance.get("TotalMoney"));
-        assertEquals(28, balance.get("TotalBanknotes"));
+        assertEquals(41200, balance.getTotalMoney());
+        assertEquals(28, balance.getTotalBanknotes());
     }
 
     @Test
     public void testDepartmentResetAllAtm() {
         atmDepartment = new AtmDepartmentImpl();
-        AtmImpl atm1 = new AtmImpl(Atm01loadBanknotes);
-        AtmImpl atm2 = new AtmImpl(Atm02loadBanknotes);
+        AtmImpl atm1 = new AtmImpl(atm01loadBanknotes);
+        AtmImpl atm2 = new AtmImpl(atm02loadBanknotes);
         AtmImpl atm3 = new AtmImpl();
 
         atmDepartment.addAtm(atm1);
@@ -105,27 +105,22 @@ public class TestExecutor {
 
         atmDepartment.restore();
 
-        atm1.getTotalCash();
-        atm2.getTotalCash();
-        atm3.getTotalCash();
-
-        assertEquals(21000, atm1.getTotalCash().get("TotalMoney"));
-        assertEquals(16, atm1.getTotalCash().get("TotalBanknotes"));
-        assertEquals(6700, atm2.getTotalCash().get("TotalMoney"));
-        assertEquals(5, atm2.getTotalCash().get("TotalBanknotes"));
-        assertEquals(0, atm3.getTotalCash().get("TotalMoney"));
-        assertEquals(0, atm3.getTotalCash().get("TotalBanknotes"));
+        assertEquals(21000, atm1.getTotalCash().getTotalMoney());
+        assertEquals(16, atm1.getTotalCash().getTotalBanknotes());
+        assertEquals(6700, atm2.getTotalCash().getTotalMoney());
+        assertEquals(5, atm2.getTotalCash().getTotalBanknotes());
+        assertEquals(0, atm3.getTotalCash().getTotalMoney());
+        assertEquals(0, atm3.getTotalCash().getTotalBanknotes());
     }
 
 
     @AfterEach
     public void clearAll(){
-        Atm01loadBanknotes.clear();
-        Atm02loadBanknotes.clear();
+        atm01loadBanknotes.clear();
+        atm02loadBanknotes.clear();
 
         atmDepartment.removeAtm(atm1);
         atmDepartment.removeAtm(atm2);
         atmDepartment.removeAtm(atm3);
     }
 }
-

@@ -2,9 +2,9 @@ package ru.otus.atmdepartment.director;
 
 import ru.otus.atmdepartment.atm.Atm;
 import ru.otus.atmdepartment.atm.AtmImpl;
+import ru.otus.atmdepartment.atm.BalanceInfo;
 
 import java.util.List;
-import java.util.Map;
 
 public interface AtmDepartment {
 
@@ -12,7 +12,7 @@ public interface AtmDepartment {
 
     List<Atm> getAtmAll();
 
-    Map<String,Integer> getBalance(List<Atm> units);
+    BalanceInfo getBalance();
 
     void removeAtm(AtmImpl atm);
 

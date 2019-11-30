@@ -55,7 +55,6 @@ public class CellStoreImpl implements CellStore {
         cellStore.put(faceValue, moneyCell);
     }
 
-    /**Функция выполняет добавления купюр в ячейку.**/
     @Override
     public void addBanknotes(MoneyCell moneyCell){
         int faceValue = moneyCell.getFaceValue();
@@ -64,9 +63,8 @@ public class CellStoreImpl implements CellStore {
         setBanknotes(faceValue, new MoneyCellImpl(newBanknotesCount, faceValue));
     }
 
-    /**Функция возвращает ячейку(и) с купюрами.**/
     @Override
-    public Map<Integer, MoneyCell> getBanknotes(int cash) throws Error {
+    public Map<Integer, MoneyCell> getBanknotes(int cash) {
         Map<Integer, MoneyCell> resultCell = new HashMap<>();
         List<FaceValue> listFaceValues = Arrays.asList(FaceValue.values());
         Collections.reverse(listFaceValues);
@@ -107,12 +105,10 @@ public class CellStoreImpl implements CellStore {
         return resultCell;
     }
 
-    /**Получить ячейку**/
     public MoneyCell getCell(int faceValue) {
         return cellStore.get(faceValue);
     }
 
-    /**Получить общую сумму денег во всех ячейках.**/
     public int getTotalCash(int var) {
         if (var > 0) {
             return cellStore.values().stream()
@@ -126,7 +122,6 @@ public class CellStoreImpl implements CellStore {
         return result;
     }
 
-    /**Получить общее кол-во банкнот во всех ячейках*.*/
     public int getTotalBanknotes() {
         return cellStore.values().stream().mapToInt(k -> k.getBanknotesCount()).sum();
     }
