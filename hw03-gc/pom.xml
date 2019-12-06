@@ -25,7 +25,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>ru.otus.hw.GCTest</mainClass>
+                            <mainClass>ru.otus.hw03gc.GCTest</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
