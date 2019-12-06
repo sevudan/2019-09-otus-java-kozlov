@@ -6,13 +6,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 public class GsonWriter {
-   // private final Object object;
-   // private final Class<?> clazz;
-
-    public GsonWriter() {
-      //  this.object = Objects.requireNonNull(object, "Object must not be NULL !");
-        //this.clazz = object.getClass();
-    }
 
     //Строим строку из массива.
     private StringBuilder arrayToGson(Object object) throws IllegalAccessException {
