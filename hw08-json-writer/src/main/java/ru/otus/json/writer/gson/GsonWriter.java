@@ -75,7 +75,7 @@ public class GsonWriter {
             StringBuilder jsonObject = buildJsonString(object);
             Object obj2 = GsonStringBuild.clearSymbols(new StringBuilder(jsonObject));
 
-            if (object.toString().equals(obj2.toString()) || object.getClass().equals(Character.class) ) {
+            if (object.toString().equals(obj2.toString()) || ChekTypeHelper.isChar(object.getClass()))  {
                 return GsonStringBuild.deletekLastChar(jsonObject).toString();
             }
             resultObject = GsonStringBuild.resultStringWraper(jsonObject);
