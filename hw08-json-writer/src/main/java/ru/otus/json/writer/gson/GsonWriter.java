@@ -7,24 +7,23 @@ import java.lang.reflect.Modifier;
 
 public class GsonWriter {
 
-    //Строим строку из массива.
+    /**Строим строку из массива.**/
     private StringBuilder arrayToGson(Object object) throws IllegalAccessException {
         var sb = new StringBuilder();
         for (int i = 0; i < Array.getLength(object); i++ ) {
             Object obj = Array.get(object, i);
-            sb.append(gsonBuilder(obj));
+            sb.append(buildJsonString(obj));
         }
         return GsonStringBuild.arrayWraper(sb);
     }
 
-    //Строим строку из коллекции.
+    /**Строим строку из коллекции.**/
     private StringBuilder collectionToGson(Object object) throws IllegalAccessException {
         Object[] collectionObj = ((Collection) object).toArray();
         return arrayToGson(collectionObj);
     }
 
-    //Строим JSON строку.
-    private StringBuilder gsonBuilder(Object object) throws IllegalAccessException {
+    private StringBuilder buildJsonString(Object object) throws IllegalAccessException {
 
         var sb = new StringBuilder();
 
@@ -54,26 +53,34 @@ public class GsonWriter {
             return collectionToGson(object);
 
         }else{
-             Field[] fields = object.getClass().getDeclaredFields();
-             for (Field field : fields) {
-                 field.setAccessible(true);
+            Field[] fields = object.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                field.setAccessible(true);
 
-                 if (Modifier.isTransient(field.getModifiers())) continue;
+                if (Modifier.isTransient(field.getModifiers())) continue;
 
-                 GsonStringBuild.stringFieldWraper(sb, field.getName());
-                 Object objectValue = field.get(object);
-                 sb.append(gsonBuilder(objectValue));
-             }
+                GsonStringBuild.stringFieldWraper(sb, field.getName());
+                Object objectValue = field.get(object);
+                sb.append(buildJsonString(objectValue));
+            }
         }
         return sb;
     }
 
     public String toGson(Object object) {
-        object = Objects.requireNonNull(object, "Object must not be NULL !");
-        StringBuilder jsonObject;
+        StringBuilder resultObject;
+
+        if (object == null) return "null";
         try{
-            jsonObject = GsonStringBuild.resultStringWraper(gsonBuilder(object));
+            StringBuilder jsonObject = buildJsonString(object);
+            Object obj2 = GsonStringBuild.clearSymbols(new StringBuilder(jsonObject));
+
+            if (object.toString().equals(obj2.toString())) {
+                return GsonStringBuild.deletekLastChar(jsonObject).toString();
+            }
+            resultObject = GsonStringBuild.resultStringWraper(jsonObject);
         } catch (IllegalAccessException e) { throw new IllegalArgumentException();}
-        return jsonObject.toString();
+
+        return resultObject.toString();
     }
 }

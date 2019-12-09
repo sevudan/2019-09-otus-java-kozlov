@@ -43,6 +43,20 @@ public class TestGson {
     @Test()
     public void testNullObject(){
         var gsonBuilder = new GsonWriter();
-        gsonBuilder.toGson(null);
+        Gson gson = new Gson();
+
+        assertEquals(gson.toJson(null), gsonBuilder.toGson(null));
+    }
+
+
+    @Test()
+    public void testPrimitives() {
+        var gson = new Gson();
+        var gsonBuilder = new GsonWriter();
+
+        assertEquals(gson.toJson(123), gsonBuilder.toGson(123));
+        assertEquals(gson.toJson("abc"), gsonBuilder.toGson("abc"));
+        assertEquals(gson.toJson(true), gsonBuilder.toGson(true));
+        assertEquals(gson.toJson(false), gsonBuilder.toGson(false));
     }
 }

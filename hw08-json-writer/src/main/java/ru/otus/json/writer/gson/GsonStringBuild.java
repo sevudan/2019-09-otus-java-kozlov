@@ -2,8 +2,7 @@ package ru.otus.json.writer.gson;
 
 public class GsonStringBuild {
 
-    //Удаляем запятиую из конца строки.
-    private static StringBuilder checkLastChar(StringBuilder sb) {
+    public static StringBuilder deletekLastChar(StringBuilder sb) {
         if (sb.length() == 0) return sb;
         if (sb.lastIndexOf(",") == sb.length()-1) {
             int lastIdx = sb.lastIndexOf(",");
@@ -12,38 +11,44 @@ public class GsonStringBuild {
         return sb;
     }
 
-    //Оборачиваем строку скобками строки из массива.
+    public static StringBuilder clearSymbols(StringBuilder sb) {
+        if (!sb.toString().startsWith("\"")) {
+            deletekLastChar(sb);
+            return sb;
+        }
+        sb.deleteCharAt(0);
+        sb.delete(sb.length()-2, sb.length());
+        sb.trimToSize();
+        return sb;
+    }
+
     public static StringBuilder arrayWraper(StringBuilder sb) {
-        checkLastChar(sb);
+        deletekLastChar(sb);
         sb.insert(0, "[");
         sb.append("]");
         sb.append(",");
         return sb;
     }
 
-    //Устанавливаем разделитель для имени поля.
     public static StringBuilder stringFieldWraper(StringBuilder sb, Object object) {
         sb.append(stringBuild(object));
         sb.append(":");
         return sb;
     }
 
-    //Устанавливаем разделитель для объекта.
     public static StringBuilder objectStringWraper(StringBuilder sb, Object object) {
         sb.append(stringBuild(object));
         sb.append(",");
         return sb;
     }
 
-    //Оборачиваем ркзультат в фигурные скобки.
     public static StringBuilder resultStringWraper(StringBuilder sb) {
-        checkLastChar(sb);
+        deletekLastChar(sb);
         sb.insert(0, "{");
         sb.append("}");
         return sb;
     }
 
-    //Строим строку.
     public static StringBuilder stringBuild(Object object) {
         var  sb = new StringBuilder();
         sb.append("\"");
@@ -87,7 +92,6 @@ public class GsonStringBuild {
         return sb;
     }
 
-    //Записываем объект в строку.
     public static StringBuilder objectStringBuild(Object object) {
         var  sb = new StringBuilder();
         sb.append(object.toString());
