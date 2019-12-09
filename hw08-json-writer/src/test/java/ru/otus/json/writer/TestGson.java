@@ -55,6 +55,7 @@ public class TestGson {
         var gsonBuilder = new GsonWriter();
 
         assertEquals(gson.toJson(123), gsonBuilder.toGson(123));
+        assertEquals(gson.toJson('\n'), gsonBuilder.toGson('\n'));
         assertEquals(gson.toJson("abc"), gsonBuilder.toGson("abc"));
         assertEquals(gson.toJson(true), gsonBuilder.toGson(true));
         assertEquals(gson.toJson(false), gsonBuilder.toGson(false));
