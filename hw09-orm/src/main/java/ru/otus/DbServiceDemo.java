@@ -13,7 +13,6 @@ import ru.otus.api.service.DBServiceUser;
 import ru.otus.api.service.DbServiceUserImpl;
 import ru.otus.api.service.DbServiceAccauntImpl;
 import ru.otus.api.service.DBServiceAccaunt;
-import ru.otus.jdbc.DbExecutor;
 import ru.otus.h2.DataSourceH2;
 import ru.otus.api.model.User;
 
@@ -33,42 +32,37 @@ public class DbServiceDemo {
 
     SessionManagerJdbc sessionManager = new SessionManagerJdbc(dataSource);
 
-    DbExecutor<User> dbExecutor = new DbExecutor<>(dataSource.getConnection());
-    DbExecutor<Accaunt> dbExecutorAcc = new DbExecutor<>(dataSource.getConnection());
-
-    UserDao userDao = new UserDaoJdbc(sessionManager, dbExecutor);
-    AccauntDao accauntDao = new AccauntDaoJdbc(sessionManager, dbExecutorAcc);
+    UserDao userDao = new UserDaoJdbc(sessionManager);
+    AccauntDao accauntDao = new AccauntDaoJdbc(sessionManager);
 
     DBServiceUser dbServiceUser = new DbServiceUserImpl(userDao);
     DBServiceAccaunt dbServiceAccaunt = new DbServiceAccauntImpl(accauntDao);
 
     var userRoot = new User();
-    userRoot.setId(1);
     userRoot.setName("root");
     userRoot.setAge(22);
 
     var userFoo = new User();
-    userFoo.setId(2);
     userFoo.setName("Foo");
     userFoo.setAge(15);
 
     var testAccaunt = new Accaunt();
-    testAccaunt.setNo(12);
     testAccaunt.setType("customer");
-    testAccaunt.setRest(new BigDecimal(755));
+    testAccaunt.setRest(new BigDecimal(755.21D));
 
-    dbServiceUser.saveUser(userRoot);
-    dbServiceUser.getUser(1);
 
-    dbServiceUser.saveUser(userFoo);
-    dbServiceUser.getUser(2);
+    long userRootId = dbServiceUser.saveUser(userRoot);
+    dbServiceUser.getUser(userRootId);
 
-    dbServiceAccaunt.saveAccaunt(testAccaunt);
-    dbServiceAccaunt.getAccaunt(12);
+    long userFooId = dbServiceUser.saveUser(userFoo);
+    dbServiceUser.getUser(userFooId);
+
+    long accauntId = dbServiceAccaunt.saveAccaunt(testAccaunt);
+    dbServiceAccaunt.getAccaunt(accauntId);
 
     userFoo.setName("TST");
     dbServiceUser.saveUser(userFoo);
-    dbServiceUser.getUser(2);
+    dbServiceUser.getUser(userFooId);
 
   }
 }

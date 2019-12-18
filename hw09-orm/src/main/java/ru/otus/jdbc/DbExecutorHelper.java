@@ -4,7 +4,7 @@ import ru.otus.orm.Id;
 
 import java.lang.reflect.Field;
 
-public class DBExexutorHelper<T> {
+public class DbExecutorHelper<T> {
 
   public Field getIdField(T objectData) {
     try {
@@ -21,7 +21,19 @@ public class DBExexutorHelper<T> {
     throw new IllegalArgumentException("Field with @Id not found!");
   }
 
+  public Field getFieldObject(Field field, T objectData) {
+    try {
+      field.setAccessible(true);
+      return objectData.getClass().getDeclaredField(field.getName());
+    } catch (NoSuchFieldException ex) {
+      ex.printStackTrace();
+    }
+    return field;
+  }
+
   public boolean isIdAnnotationPresent(Field field) {
     return field.isAnnotationPresent(Id.class);
   }
+
+
 }

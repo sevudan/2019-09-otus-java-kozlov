@@ -10,7 +10,9 @@ public class Accaunt {
 
   private String type;
 
-  private BigDecimal rest;public long getNo() {
+  private BigDecimal rest;
+
+  public long getNo() {
             return no;
         }
 

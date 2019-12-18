@@ -30,6 +30,12 @@ public class SqlStringBuilder {
 
     public static StringBuilder valuesWraper(StringBuilder sb) {
         deletekLastChar(sb);
+        int idx = sb.indexOf("?");
+        if (idx > 0) {
+            sb.insert(idx, "(");
+            sb.append(")");
+            return sb;
+        }
         sb.insert(0, "(");
         sb.append(")");
         return sb;

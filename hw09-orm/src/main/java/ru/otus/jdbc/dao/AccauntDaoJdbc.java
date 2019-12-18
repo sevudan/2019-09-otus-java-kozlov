@@ -19,18 +19,16 @@ public class AccauntDaoJdbc implements AccauntDao{
   private static Logger logger = LoggerFactory.getLogger(AccauntDaoJdbc.class);
 
   private final SessionManagerJdbc sessionManager;
-  private final DbExecutor<Accaunt> dbExecutor;
 
-  public AccauntDaoJdbc(SessionManagerJdbc sessionManager, DbExecutor<Accaunt> dbExecutor) {
+  public AccauntDaoJdbc(SessionManagerJdbc sessionManager) {
     this.sessionManager = sessionManager;
-    this.dbExecutor = dbExecutor;
   }
-
 
   @Override
   public Optional<Accaunt> findById(long id) {
     try {
-    return dbExecutor.load(id, Accaunt.class);
+      DbExecutor<Accaunt> dbExecutor = new DbExecutor<>(getConnection());
+      return dbExecutor.load(id, Accaunt.class);
     } catch (SQLException | NoSuchMethodException
       | InstantiationException | IllegalAccessException
       | InvocationTargetException ex) {
@@ -39,24 +37,23 @@ public class AccauntDaoJdbc implements AccauntDao{
     return Optional.empty();
   }
 
-
   @Override
   public long saveAccaunt(Accaunt accaunt) {
     try {
+      DbExecutor<Accaunt> dbExecutor = new DbExecutor<>(getConnection());
       dbExecutor.createOrUpdate(accaunt);
     } catch (Exception ex) {
       logger.error(ex.getMessage(), ex);
       throw new DaoException(ex);
     }
-    return 1;
+    return accaunt.getNo();
   }
 
   @Override
   public SessionManager getSessionManager() {
     return sessionManager;
   }
-
   private Connection getConnection() {
     return sessionManager.getCurrentSession().getConnection();
   }
-}
+ }

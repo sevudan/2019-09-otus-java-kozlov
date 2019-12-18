@@ -19,17 +19,16 @@ public class UserDaoJdbc implements UserDao {
   private static Logger logger = LoggerFactory.getLogger(UserDaoJdbc.class);
 
   private final SessionManagerJdbc sessionManager;
-  private final DbExecutor<User> dbExecutor;
 
-  public UserDaoJdbc(SessionManagerJdbc sessionManager, DbExecutor<User> dbExecutor) {
+  public UserDaoJdbc(SessionManagerJdbc sessionManager) {
     this.sessionManager = sessionManager;
-    this.dbExecutor = dbExecutor;
   }
 
   @Override
   public Optional<User> findById(long id) {
     try {
-    return dbExecutor.load(id, User.class);
+      DbExecutor<User> dbExecutor = new DbExecutor<>(getConnection());
+      return dbExecutor.load(id, User.class);
     } catch (SQLException | NoSuchMethodException
             | InstantiationException | IllegalAccessException
             | InvocationTargetException e) {
@@ -38,16 +37,16 @@ public class UserDaoJdbc implements UserDao {
     return Optional.empty();
   }
 
-
   @Override
   public long saveUser(User user) {
     try {
+      DbExecutor<User> dbExecutor = new DbExecutor<>(getConnection());
       dbExecutor.createOrUpdate(user);
+      return user.getId();
     } catch (Exception e) {
       logger.error(e.getMessage(), e);
       throw new DaoException(e);
     }
-   return 1;
   }
 
   @Override
