@@ -19,6 +19,7 @@
         <module>hw06-atm</module>
         <module>hw07-atm-department</module>
         <module>hw08-json-writer</module>
+        <module>hw09-orm</module>
     </modules>
 
     <developers>
