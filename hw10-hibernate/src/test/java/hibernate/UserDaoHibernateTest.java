@@ -15,7 +15,7 @@ import ru.otus.hw10.hibernate.sessionmanager.SessionManagerHibernate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserDaoTest{
+public class UserDaoHibernateTest {
 
     SessionManagerHibernate  sessionManagerHibernate;
     UserDaoHibernate userDaoHibernate;

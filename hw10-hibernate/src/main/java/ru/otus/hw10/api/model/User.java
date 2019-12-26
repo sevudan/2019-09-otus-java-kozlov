@@ -15,10 +15,10 @@ public class User {
   private long id;
 
   //globally_quoted_identifiers enabled in a configuration file "hibernate.cfg"
-  @Column(nullable = false)
+  @Column(name="name", nullable = false)
   private String name;
 
-  @Column(nullable = false)
+  @Column(name="age", nullable = false)
   private int age;
 
   @OneToOne(targetEntity = AddressDataSet.class,fetch = FetchType.EAGER,

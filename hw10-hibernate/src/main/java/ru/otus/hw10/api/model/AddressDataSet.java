@@ -9,6 +9,7 @@ public class AddressDataSet {
   @Column(name = "id", nullable = false, unique = true)
   private long id;
 
+  @Column(name = "street")
   private String street;
 
   public AddressDataSet() {}

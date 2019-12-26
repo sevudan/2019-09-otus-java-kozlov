@@ -11,6 +11,7 @@ public class PhoneDataSet {
   @Column(name = "id", nullable = false)
   private long id;
 
+  @Column(name = "number")
   private String number;
 
   public PhoneDataSet(){}
