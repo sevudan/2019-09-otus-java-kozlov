@@ -27,7 +27,7 @@ public class CahceTest {
 
   private HwCacheImpl<String, User> cache = new HwCacheImpl<>();
   private List<User> listUsers  = new ArrayList<>();
-  private int size = 10;
+  private int size = 3;
 
   @BeforeEach
   public void createUsers(){
@@ -41,7 +41,8 @@ public class CahceTest {
   @Test
   @DisplayName("Test add the test users into a cahce")
   public void addUser() {
-    IntStream.range(1,size).forEach(id ->cache.put(String.valueOf(id), listUsers.get(id-1)) );
+    IntStream.range(1,size).forEach(id ->cache.put(String.valueOf(id), listUsers.get(id-1)));
+
     assertTrue(!cache.isEmpty());
   }
 
@@ -51,6 +52,7 @@ public class CahceTest {
     IntStream.range(1,size).forEach(id ->cache.put(String.valueOf(id), listUsers.get(id-1)));
     for (int idx = 1; idx < size; idx++) {
       User user = cache.get(String.valueOf(idx));
+
       assertEquals(user, listUsers.get(idx-1));
     }
   }
@@ -62,12 +64,14 @@ public class CahceTest {
     IntStream.range(1,size).forEach(id ->cache.get(String.valueOf(id)));
 
     assertTrue(!cache.isEmpty());
+
     System.gc();
     try {
       Thread.sleep(100);
     } catch (InterruptedException ex) {
       ex.printStackTrace();
     }
+
     assertTrue(cache.isEmpty());
   }
 
@@ -78,6 +82,7 @@ public class CahceTest {
     IntStream.range(1,localSize).forEach(id ->cache.put(String.valueOf(id), new User("Foo", 999)) );
 
     IntStream.range(1,size).forEach(id ->cache.get(String.valueOf(id)));
+
     assertTrue(cache.cacheSize() < localSize);
   }
 

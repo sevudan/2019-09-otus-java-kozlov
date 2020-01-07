@@ -16,9 +16,9 @@ public class DbServiceUserWithCacheImpl implements DBServiceUser {
   private final UserDao userDao;
   private HwCache<String, User> cache;
 
-  public DbServiceUserWithCacheImpl(UserDao userDao) {
+  public DbServiceUserWithCacheImpl(UserDao userDao, HwCache cache) {
     this.userDao = userDao;
-    this.cache = new HwCacheImpl<>();
+    this.cache = cache;
   }
 
   @Override
@@ -27,7 +27,7 @@ public class DbServiceUserWithCacheImpl implements DBServiceUser {
       sessionManager.beginSession();
       try {
         long userId = userDao.saveUser(user);
-        cache.put(String.valueOf(userId),user);
+        cache.put(String.valueOf(userId), user);
         sessionManager.commitSession();
         logger.info("created user: {}", userId);
         return userId;
@@ -45,9 +45,9 @@ public class DbServiceUserWithCacheImpl implements DBServiceUser {
       sessionManager.beginSession();
       try {
         User user = cache.get(String.valueOf(id));
-        if (user.equals(null)) {
+        if (user == null) {
           Optional<User> userOptional = userDao.findById(id);
-          logger.info("user: {}", userOptional.orElse(null));
+          logger.info("user get from DB: {}", userOptional.orElse(null));
           return userOptional;
         }
         logger.info("user get from cahce: {}", user.toString());

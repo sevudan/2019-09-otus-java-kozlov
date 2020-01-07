@@ -49,13 +49,13 @@ public class CaheVsDbBenchmark {
     SessionFactory sessionFactory = HibernateUtils.buildSessionFactory("hibernate.cfg.xml", annotateClasses);
     var sessionManagerHibernate = new SessionManagerHibernate(sessionFactory);
     var userDaoHibernate = new UserDaoHibernate(sessionManagerHibernate);
-    dbServiceUserWithCache = new DbServiceUserWithCacheImpl(userDaoHibernate);
+    dbServiceUserWithCache = new DbServiceUserWithCacheImpl(userDaoHibernate, cache);
     dbServiceUser = new DbServiceUserImpl(userDaoHibernate);
     saveUsers();
   }
 
   @Benchmark
-  public void getFromCache() {
+  public void getFromCache() throws InterruptedException{
     listUserId.stream().forEach(id -> System.out.println(dbServiceUserWithCache.getUser(id)));
   }
 
@@ -65,13 +65,12 @@ public class CaheVsDbBenchmark {
   }
 
   private void saveUsers(){
-    int size = 50;
+    int size = 10;
     for (int idx = 1; idx <= size; idx++) {
       String id = String.valueOf(idx);
       User testUser = new User("Foo#" + id, 999);
       long userId = dbServiceUserWithCache.saveUser(testUser);
       listUserId.add(userId);
-      cache.put(id,testUser);
     }
   }
 }
