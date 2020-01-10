@@ -14,13 +14,13 @@
         <module>hw01-maven</module>
         <module>hw02-arraylist</module>
         <module>hw03-gc</module>
+        <module>hw11-cache</module>
         <module>hw10-hibernate</module>
         <module>hw04-auto-logging</module>
         <module>hw05-testframework</module>
         <module>hw06-atm</module>
         <module>hw07-atm-department</module>
         <module>hw08-json-writer</module>
-        <module>hw09-orm</module>
     </modules>
 
     <developers>
