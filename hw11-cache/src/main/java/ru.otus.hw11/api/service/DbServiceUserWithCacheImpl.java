@@ -16,7 +16,7 @@ public class DbServiceUserWithCacheImpl implements DBServiceUser {
   private final UserDao userDao;
   private HwCache<String, User> cache;
 
-  public DbServiceUserWithCacheImpl(UserDao userDao, HwCache cache) {
+  public DbServiceUserWithCacheImpl(UserDao userDao, HwCache<String, User> cache) {
     this.userDao = userDao;
     this.cache = cache;
   }
