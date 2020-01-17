@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Page</title>
+    <style type="text/css">
+        h1 {
+            font-size: 110%;
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            color: #336;
+        }
+        thead tr td {
+            width: 50px;
+            background:#3CA0D0;
+        }
+
+        tr:nth-of-type(even) td {
+            background: #408DD2;
+        }
+
+        tr:nth-of-type(odd) td {
+            background: #679FD2;
+        }
+        .layer1 {
+            width: 100%;
+            max-width: 1024px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+        .layer2 {
+            width: 100%;
+            max-width: 1024px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+         .layer3 {
+            width: 100%;
+            max-width: 1024px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+   }
+    </style>
+</head>
+
+<body>
+<div class="layer3">
+    <form>
+        <a href="/logout">Logout</a>
+    </form>
+</div>
+
+<div class="layer1">
+<h1>List of users</h1>
+<button onclick="loadAllUsers(event)" style="margin: 0 0 10px 0;">load users</button>
+<table id="usersTable" style="width: 400px; border: solid 1px; ">
+    <thead>
+    <tr>
+        <td style="background:#408DD2;">Id</td>
+        <td style="background:#408DD2;">Name</td>
+        <td style="background:#408DD2;">Login</td>
+        <td style="background:#408DD2;">Password</td>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- content loaded after click -->
+    </tbody>
+</table>
+</div>
+<div class="layer2">
+<h1>Add new user</h1>
+<form method="POST" onsubmit="addUser(event);"/>
+    <label for="username">Username
+    <input type="text" id="username" placeholder="Username" name="username" /></label>
+    <br> <label for="login">Login
+    <input type="text" id="login" placeholder="Login" name="login" /></label>
+    <br><label for="password">Password
+    <input type="text" id="password" placeholder="Password" name="password" /></label>
+    <br><button type="submit" style="margin: 0 0 10px 0;">Add user</button>
+
+</div>
+
+<script>
+
+  function loadAllUsers(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    fetch('api/user/')
+      .then(response => response.json())
+      .then(users => {
+        const usersTable = document.getElementById("usersTable");
+        const tableBody = usersTable.getElementsByTagName('tbody')[0];
+        let rows = '';
+        users.forEach((user, idx) => {
+          rows += '<tr>'
+            + '<td>' + user.id + '</td>'
+            + '<td>' + user.username + '</td>'
+            + '<td>' + user.login + '</td>'
+            + '<td>' + user.password + '</td>'
+            + '</tr>';
+        });
+        tableBody.innerHTML = rows;
+      }).catch(e => alert('Ошибка получения списка'));
+  }
+
+  async function addUser(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const username = document.forms[0].username.value;
+    const login = document.forms[0].login.value;
+    const password = document.forms[0].password.value;
+
+    const user = { username, login, password };
+
+    let response = await fetch('api/user/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+      },
+      body: JSON.stringify(user)
+    }).catch(e => alert('Ошибка добавления пользоваетеля'));
+      document.forms[0].username.value = '';
+      document.forms[0].login.value = '';
+      document.forms[0].password.value = '';
+    try {
+      const result = await response.json();
+      alert(result.message);
+    } catch (e) {
+    }
+  }
+</script>
+</body>
+</html>
