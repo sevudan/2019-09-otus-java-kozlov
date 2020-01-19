@@ -1,4 +1,4 @@
-package ru.otus.hw12.jetty.services.dbservice;
+package ru.otus.hw12.hibernate.dbservice;
 
 import ru.otus.hw12.model.User;
 
@@ -13,6 +13,6 @@ public interface DbServiceUser {
 
   Optional<User> findByLogin(String login);
 
-  List<Optional<User>> getUsers();
+  List<User> getUsers();
 
 }

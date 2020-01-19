@@ -17,7 +17,7 @@ import org.eclipse.jetty.util.security.Constraint;
 import ru.otus.hw12.jetty.helpers.FileSystemHelper;
 import ru.otus.hw12.jetty.services.TemplateProcessor;
 import ru.otus.hw12.jetty.services.UserAuthService;
-import ru.otus.hw12.jetty.services.dbservice.DbServiceUser;
+import ru.otus.hw12.hibernate.dbservice.DbServiceUser;
 import ru.otus.hw12.jetty.servlet.*;
 
 import java.util.ArrayList;

@@ -78,7 +78,7 @@ public class UserDaoHibernate implements UserDao {
   }
 
   @Override
-  public List<Optional<User>> getAllUsers() {
+  public List<User> getAllUsers() {
     DatabaseSessionHibernate currentSession = sessionManager.getCurrentSession();
     try {
       Session hibernateSession = currentSession.getHibernateSession();
@@ -87,8 +87,9 @@ public class UserDaoHibernate implements UserDao {
       long usersCount = listId.get(0)+1;
 
       return LongStream.range(1, usersCount)
-              .mapToObj(id -> findById(id))
+              .mapToObj(id -> findById(id).get())
               .collect(Collectors.toList());
+
     }catch (Exception e) {
       logger.error(e.getMessage(), e);
     }

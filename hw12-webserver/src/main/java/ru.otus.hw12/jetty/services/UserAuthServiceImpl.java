@@ -1,6 +1,6 @@
 package ru.otus.hw12.jetty.services;
 
-import ru.otus.hw12.jetty.services.dbservice.DbServiceUser;
+import ru.otus.hw12.hibernate.dbservice.DbServiceUser;
 
 
 public class UserAuthServiceImpl implements UserAuthService {

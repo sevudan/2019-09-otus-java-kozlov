@@ -12,7 +12,7 @@ public interface UserDao {
 
   Optional<User> findByLogin(String login);
 
-  List<Optional<User>> getAllUsers();
+  List<User>  getAllUsers();
 
   long saveUser(User user);
 

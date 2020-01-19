@@ -11,8 +11,8 @@ import ru.otus.hw12.hibernate.sessionmanager.SessionManagerHibernate;
 import ru.otus.hw12.jetty.server.UsersWebServer;
 import ru.otus.hw12.jetty.server.UsersWebServerImpl;
 import ru.otus.hw12.jetty.services.*;
-import ru.otus.hw12.jetty.services.dbservice.DbServiceUser;
-import ru.otus.hw12.jetty.services.dbservice.DbServiceUserImpl;
+import ru.otus.hw12.hibernate.dbservice.DbServiceUser;
+import ru.otus.hw12.hibernate.dbservice.DbServiceUserImpl;
 import ru.otus.hw12.model.User;
 
 import static ru.otus.hw12.jetty.server.SecurityType.FILTER_BASED;

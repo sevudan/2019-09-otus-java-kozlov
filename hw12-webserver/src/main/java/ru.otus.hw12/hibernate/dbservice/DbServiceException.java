@@ -1,4 +1,4 @@
-package ru.otus.hw12.jetty.services.dbservice;
+package ru.otus.hw12.hibernate.dbservice;
 
 public class DbServiceException extends RuntimeException {
   public DbServiceException(Exception e) {

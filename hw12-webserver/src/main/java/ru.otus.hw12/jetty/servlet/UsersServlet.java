@@ -1,7 +1,7 @@
 package ru.otus.hw12.jetty.servlet;
 
 import ru.otus.hw12.jetty.services.TemplateProcessor;
-import ru.otus.hw12.jetty.services.dbservice.DbServiceUser;
+import ru.otus.hw12.hibernate.dbservice.DbServiceUser;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

@@ -2,7 +2,7 @@ package ru.otus.hw12.jetty.services;
 
 import org.eclipse.jetty.security.AbstractLoginService;
 import org.eclipse.jetty.util.security.Password;
-import ru.otus.hw12.jetty.services.dbservice.DbServiceUser;
+import ru.otus.hw12.hibernate.dbservice.DbServiceUser;
 import ru.otus.hw12.model.User;
 
 import java.util.Optional;

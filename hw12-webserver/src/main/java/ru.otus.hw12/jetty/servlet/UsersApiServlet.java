@@ -1,7 +1,7 @@
 package ru.otus.hw12.jetty.servlet;
 
 import com.google.gson.Gson;
-import ru.otus.hw12.jetty.services.dbservice.DbServiceUser;
+import ru.otus.hw12.hibernate.dbservice.DbServiceUser;
 import ru.otus.hw12.model.User;
 
 import javax.servlet.ServletException;
@@ -34,12 +34,11 @@ public class UsersApiServlet extends HttpServlet {
 
     List<User> userList = new ArrayList<>();
     dbServiceUser.getUsers().forEach(obj -> {
-            User optionalUser = obj.get();
             User user = new User();
-            user.setId(optionalUser.getId());
-            user.setUsername(optionalUser.getUsername());
-            user.setLogin(optionalUser.getLogin());
-            user.setPassword(optionalUser.getPassword());
+            user.setId(obj.getId());
+            user.setUsername(obj.getUsername());
+            user.setLogin(obj.getLogin());
+            user.setPassword(obj.getPassword());
             userList.add(user);
       }
     );

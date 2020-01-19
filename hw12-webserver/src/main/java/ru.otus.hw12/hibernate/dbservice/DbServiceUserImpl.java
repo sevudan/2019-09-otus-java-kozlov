@@ -1,4 +1,4 @@
-package ru.otus.hw12.jetty.services.dbservice;
+package ru.otus.hw12.hibernate.dbservice;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,13 +69,13 @@ public class DbServiceUserImpl implements DbServiceUser {
   }
 
   @Override
-  public List<Optional<User>> getUsers() {
+  public List<User> getUsers() {
     try (SessionManager sessionManager = userDao.getSessionManager()) {
       sessionManager.beginSession();
       try {
-        List<Optional<User>> userOptional = userDao.getAllUsers();
-        userOptional.stream().forEach(user -> logger.info("get user: {}", user.get()));
-        return userOptional;
+        List<User> users = userDao.getAllUsers();
+        users.forEach(user -> logger.info("get user: {}", user));
+        return users;
       } catch (Exception e) {
         logger.error(e.getMessage(), e);
         sessionManager.rollbackSession();
