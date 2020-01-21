@@ -1,4 +1,4 @@
-package jmm.hw14;
+package ru.otus.hw14;
 
 
 public class Steps {
