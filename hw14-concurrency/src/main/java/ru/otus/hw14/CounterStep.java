@@ -9,11 +9,15 @@ class CounterStep extends Thread {
 
   private boolean forward = true;
 
-  Object monitor = new Object();
+  private final Object monitor;
+
+  private static final int MAX_COUNT = 10;
 
   private static final Logger logger = LoggerFactory.getLogger(CounterStep.class);
 
-  private static final int MAX_COUNT = 10;
+  public CounterStep(Object monitor) {
+    this.monitor = monitor;
+  }
 
   private void inc() {
   count++;
@@ -24,7 +28,7 @@ class CounterStep extends Thread {
   }
 
   private void step(){
-   logger.info("step#: {}", count);
+   logger.info("step: {}", count);
   }
 
   @Override
@@ -39,7 +43,9 @@ class CounterStep extends Thread {
             step();
             inc();
             try {
-              monitor.wait(500);
+              Thread.sleep(500);
+              monitor.notify();
+              monitor.wait();
             } catch (InterruptedException ex) {
               ex.printStackTrace();
             }
@@ -56,7 +62,9 @@ class CounterStep extends Thread {
             step();
             dec();
             try {
-              monitor.wait(500);
+              Thread.sleep(500);
+              monitor.notify();
+              monitor.wait();
             } catch (InterruptedException ex) {
               ex.printStackTrace();
             }

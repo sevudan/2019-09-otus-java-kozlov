@@ -10,11 +10,15 @@ public class Steps {
 
   private void go() throws InterruptedException {
 
-    Thread threadA = new Thread( new CounterStep());
-    threadA.setName("threadA");
+    Object monitor = new Object();
 
-    Thread threadB = new Thread(new CounterStep());
-    threadB.setName("threadB");
+    Thread threadA = new Thread(new CounterStep(monitor));
+    threadA.setName("threadA");
+    threadA.setPriority(1);
+
+    Thread threadB = new Thread(new CounterStep(monitor));
+    threadB.setName("thrB");
+    threadB.setPriority(5);
 
     threadA.start();
     threadB.start();
