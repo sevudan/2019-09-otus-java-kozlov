@@ -21,6 +21,5 @@ public class Steps {
 
     threadA.join();
     threadB.join();
-
   }
 }

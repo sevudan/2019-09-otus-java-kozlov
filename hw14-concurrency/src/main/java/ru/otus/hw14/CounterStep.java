@@ -5,16 +5,17 @@ import org.slf4j.LoggerFactory;
 
 class CounterStep extends Thread {
 
- private int count = 1;
- private boolean forward = true;
+  private int count = 1;
 
- Object monitor = new Object();
+  private boolean forward = true;
 
- private static final Logger logger = LoggerFactory.getLogger(CounterStep.class);
+  Object monitor = new Object();
 
- private static final int MAX_COUNT = 10;
+  private static final Logger logger = LoggerFactory.getLogger(CounterStep.class);
 
- private void inc() {
+  private static final int MAX_COUNT = 10;
+
+  private void inc() {
   count++;
  }
 
@@ -28,40 +29,40 @@ class CounterStep extends Thread {
 
   @Override
   public void run() {
-   while (true) {
-     if (forward) {
-       synchronized (monitor) {
-         while (count < MAX_COUNT) {
-           if (count == MAX_COUNT - 1) {
-             forward = false;
-           }
-           step();
-           inc();
-           try {
-             monitor.wait(500);
-           } catch (InterruptedException ex) {
-             ex.printStackTrace();
-           }
-         }
-       }
-     }
-     if (!forward) {
-       synchronized (monitor) {
-         while (count > 0) {
-           if (count == 1) {
-             forward = true;
-             break;
-           }
-           step();
-           dec();
-           try {
-             monitor.wait(500);
-           } catch (InterruptedException ex) {
-             ex.printStackTrace();
-           }
-         }
-       }
-     }
-   }
+    while (true) {
+      if (forward) {
+        synchronized (monitor) {
+          while (count < MAX_COUNT) {
+            if (count == MAX_COUNT - 1) {
+              forward = false;
+            }
+            step();
+            inc();
+            try {
+              monitor.wait(500);
+            } catch (InterruptedException ex) {
+              ex.printStackTrace();
+            }
+          }
+        }
+      }
+      if (!forward) {
+        synchronized (monitor) {
+          while (count > 0) {
+            if (count == 1) {
+              forward = true;
+              break;
+            }
+            step();
+            dec();
+            try {
+              monitor.wait(500);
+            } catch (InterruptedException ex) {
+              ex.printStackTrace();
+            }
+          }
+        }
+      }
+    }
   }
 }
