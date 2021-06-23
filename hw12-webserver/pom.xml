@@ -11,7 +11,7 @@
 
     <artifactId>hw12-webserver</artifactId>
     <properties>
-        <jetty.version>9.4.22.v20191022</jetty.version>
+        <jetty.version>9.4.41.v20210516</jetty.version>
         <gson.version>2.8.5</gson.version>
         <freemarker.version>2.3.28</freemarker.version>
         <h2.version>1.4.197</h2.version>
