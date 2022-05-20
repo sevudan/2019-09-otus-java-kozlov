@@ -12,7 +12,7 @@
     <artifactId>hw12-webserver</artifactId>
     <properties>
         <jetty.version>9.4.22.v20191022</jetty.version>
-        <gson.version>2.8.5</gson.version>
+        <gson.version>2.8.9</gson.version>
         <freemarker.version>2.3.28</freemarker.version>
         <h2.version>1.4.197</h2.version>
         <logback-classic.version>1.2.3</logback-classic.version>
@@ -141,7 +141,7 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.8.6</version>
+            <version>2.8.9</version>
         </dependency>
     </dependencies>
 
